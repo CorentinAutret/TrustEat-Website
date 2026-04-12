@@ -230,61 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Typing effect on hero subtitle ---
-    const heroSubtitle = document.querySelector('.hero-subtitle');
-    if (heroSubtitle) {
-        const fullText = heroSubtitle.textContent;
-        heroSubtitle.textContent = '';
-        heroSubtitle.style.visibility = 'visible';
-        heroSubtitle.classList.add('typing-active');
-        let charIndex = 0;
-
-        setTimeout(() => {
-            function typeChar() {
-                if (charIndex < fullText.length) {
-                    heroSubtitle.textContent += fullText[charIndex];
-                    charIndex++;
-                    setTimeout(typeChar, 18);
-                } else {
-                    heroSubtitle.classList.remove('typing-active');
-                    heroSubtitle.classList.add('typing-done');
-                }
-            }
-            typeChar();
-        }, 800);
-    }
-
-    // --- Typing effect on section descriptions ---
-    const typingObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const fullText = el.getAttribute('data-text');
-                el.textContent = '';
-                el.classList.add('typing-active');
-                let i = 0;
-
-                function typeChar() {
-                    if (i < fullText.length) {
-                        el.textContent += fullText[i];
-                        i++;
-                        setTimeout(typeChar, 12);
-                    } else {
-                        el.classList.remove('typing-active');
-                        el.classList.add('typing-done');
-                    }
-                }
-                typeChar();
-                typingObserver.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.section-description, .solution-text').forEach(el => {
-        el.setAttribute('data-text', el.textContent);
-        el.textContent = '';
-        typingObserver.observe(el);
-    });
+    // --- Typing effect removed ---
 
     // --- Floating particles in hero ---
     const heroSection = document.querySelector('.hero');

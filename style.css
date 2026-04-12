@@ -1324,29 +1324,7 @@ ul {
     }
 }
 
-/* --- Typing cursor --- */
-.hero-subtitle,
-.section-description,
-.solution-text {
-    border-right: 2px solid transparent;
-}
-
-.hero-subtitle.typing-active,
-.section-description.typing-active,
-.solution-text.typing-active {
-    border-right: 2px solid var(--accent-blue);
-    animation: blink-cursor 0.8s steps(1) infinite;
-}
-
-.typing-done {
-    border-right: none !important;
-    animation: none !important;
-}
-
-@keyframes blink-cursor {
-    0%, 100% { border-color: var(--accent-blue); }
-    50% { border-color: transparent; }
-}
+/* --- Typing effect removed ---
 
 /* --- Glow cursor on hero --- */
 .hero::after {
