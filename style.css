@@ -862,6 +862,8 @@ ul {
 .pricing-card-featured {
     border-color: var(--accent-blue);
     background: linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, var(--navy-800) 100%);
+    overflow: visible;
+    z-index: 1;
 }
 
 .pricing-card-featured:hover {
@@ -881,6 +883,7 @@ ul {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    z-index: 10;
 }
 
 .pricing-header {
@@ -1264,15 +1267,286 @@ ul {
 /* ============================================
    ANIMATIONS
    ============================================ */
-.fade-in {
+
+/* --- Scroll reveal base --- */
+.reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
 }
 
-.fade-in.visible {
+.reveal-up {
+    transform: translateY(50px);
+}
+
+.reveal-left {
+    transform: translateX(-60px);
+}
+
+.reveal-right {
+    transform: translateX(60px);
+}
+
+.reveal.revealed {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0);
+}
+
+/* --- Hero entrance --- */
+.hero-animate-in {
+    animation: heroSlideIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.hero-image-animate-in {
+    animation: heroImageIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+@keyframes heroSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroImageIn {
+    from {
+        opacity: 0;
+        transform: translateX(60px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* --- Typing cursor --- */
+.hero-subtitle,
+.section-description,
+.solution-text {
+    border-right: 2px solid transparent;
+}
+
+.hero-subtitle.typing-active,
+.section-description.typing-active,
+.solution-text.typing-active {
+    border-right: 2px solid var(--accent-blue);
+    animation: blink-cursor 0.8s steps(1) infinite;
+}
+
+.typing-done {
+    border-right: none !important;
+    animation: none !important;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { border-color: var(--accent-blue); }
+    50% { border-color: transparent; }
+}
+
+/* --- Glow cursor on hero --- */
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.07) 0%, transparent 70%);
+    left: var(--glow-x, 50%);
+    top: var(--glow-y, 50%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+    transition: left 0.3s ease, top 0.3s ease;
+}
+
+/* --- Floating particles --- */
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(59, 130, 246, 0.3);
+    border-radius: 50%;
+    animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(30px);
+        opacity: 0;
+    }
+}
+
+/* --- Active nav link --- */
+.nav-links a.nav-active {
+    color: var(--accent-blue) !important;
+}
+
+/* --- Card hover glow --- */
+.problem-card,
+.step-card,
+.advantage-card,
+.pricing-card,
+.team-card,
+.partner-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.problem-card:hover,
+.step-card:hover,
+.advantage-card:hover,
+.team-card:hover,
+.partner-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(59, 130, 246, 0.08);
+}
+
+/* --- Button ripple & transitions --- */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+/* --- Image hover zoom --- */
+.solution-image img,
+.design-image img,
+.steps-image img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.solution-image:hover img,
+.steps-image:hover img {
+    transform: scale(1.04);
+}
+
+/* --- Team image hover --- */
+.team-image {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease;
+}
+
+.team-card:hover .team-image {
+    transform: scale(1.08);
+    border-color: var(--accent-blue);
+}
+
+/* --- Roadmap pulse --- */
+.roadmap-marker {
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.05);
+    }
+}
+
+/* --- Logo hover --- */
+.nav-logo {
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+}
+
+.nav-logo:hover .logo-eat {
+    animation: logoGlow 1s ease infinite;
+}
+
+@keyframes logoGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.4); }
+}
+
+/* --- Pricing card featured shimmer --- */
+.pricing-card-featured .pricing-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card-featured .pricing-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(59, 130, 246, 0.06) 45%,
+        rgba(59, 130, 246, 0.12) 50%,
+        rgba(59, 130, 246, 0.06) 55%,
+        transparent 60%
+    );
+    animation: shimmer 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%); }
+    100% { transform: translateX(100%) translateY(100%); }
+}
+
+/* --- Stats bar glow --- */
+.problem-stats-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.problem-stats-bar::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), transparent 40%, transparent 60%, rgba(59, 130, 246, 0.1));
+    z-index: -1;
+    animation: borderGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 /* ============================================
