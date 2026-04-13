@@ -886,6 +886,43 @@ ul {
     z-index: 10;
 }
 
+.pricing-ht-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 8px 18px;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 100px;
+    color: var(--gray-300);
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.ht-tag {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: var(--white);
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.ht-inline {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: var(--accent-light);
+    background: rgba(59, 130, 246, 0.15);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+}
+
 .pricing-header {
     text-align: center;
     margin-bottom: 32px;
